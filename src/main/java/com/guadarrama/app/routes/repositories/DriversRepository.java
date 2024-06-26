@@ -29,7 +29,15 @@ public class DriversRepository implements IRepository<Driver> {
 
     @Override
     public Driver getById(Long id) throws SQLException {
-        return null;
+        Driver driver = new Driver();
+        try(PreparedStatement pstm = connection.prepareStatement("SELECT * FROM drivers WHERE ID_DRIVER = ?")){
+            pstm.setLong(1, id);
+            try(ResultSet resultSet = pstm.executeQuery()){
+                if (resultSet.next())
+                    driver = this.getDriver(resultSet);
+            }
+        }
+        return driver;
     }
 
     @Override
