@@ -1,10 +1,13 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.*" %>
 <%@page import="com.guadarrama.app.routes.models.*" %>
+<%@page import="java.time.format.*" %>
 
 <%
-    //recuperamos la lista de choferes que seteamos en eñ request desde el Servlet
-    List<Driver> drivers = (List<Driver>) request.getAttribute("drivers");
+    Driver driver = (Driver) request.getAttribute("driver");
+    String date = driver.getBirthDate() != null ? driver.getBirthDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+    Boolean state = driver.getAvailability();
+    String availability = state == true ? "Disponible" : "No disponible";
 %>
 
 <!DOCTYPE html>
@@ -69,57 +72,27 @@
        </div><!-- /.container-fluid -->
     </nav>
     <div class="container">
-        <div class="wrow">
-            <div class="col-6">
-                <h2>Listado de choferes</h2>
-            </div>
-            <div class="class-6">
-                <a href="<%=request.getContextPath()%>/drivers/add" class="btn btn-success">Alta choferes</a>
-            </div>
-        </div>
-        <br>
         <div class="row">
             <div class="col-12">
-                <div class="table-responsive">
-                    <table class="table table-bordered table-stripped" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>
-                                <th>ID.CHOFER</th>
-                                <th>NOMBRE</th>
-                                <th>AP.PATERNO</th>
-                                <th>AP.MATERNO</th>
-                                <th>LICENCIA</th>
-                                <th>Teléfono</th>
-                                <th></th>
-                                <th></th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <% for(Driver d : drivers){ %>
-                                <tr>
-                                    <td><%=d.getId_driver()%></td>
-                                    <td><%=d.getName()%></td>
-                                    <td><%=d.getSurname()%></td>
-                                    <td><%=d.getLastName()%></td>
-                                    <td><%=d.getLicence()%></td>
-                                    <td><%=d.getPhone()%></td>
-                                    <td>
-                                        <a href="<%=request.getContextPath()%>/drivers/details?id=<%=d.getId_driver()%>" class="btn btn-success">Detalle</a>
-                                    </td>
-                                    <td>
-                                        <a href="<%=request.getContextPath()%>/drivers/edit?id=<%=d.getId_driver()%>" class="btn btn-primary">Editar</a>
-                                    </td>
-                                    <td>
-                                        <a href="<%=request.getContextPath()%>/drivers/delete?id=<%=d.getId_driver()%>" class="btn btn-danger">Eliminar</a>
-                                    </td>
-                                </tr>
-                                <% } %>
-                        </tbody>
-                    </table>
+                <div class="card border">
+                    <div class="card-header">
+                        <h3><strong>Detalles del chofer</strong> </h3>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <ul class="list-group">
+                        <li class="list-group-item"><strong>Nombre: </strong><%=driver.getName() %></li>
+                        <li class="list-group-item"><strong>Ap. Paterno: </strong><%=driver.getSurname() %></li>
+                        <li class="list-group-item"><strong>Ap. Materno</strong><%=driver.getLastName() %></li>
+                        <li class="list-group-item"><strong>Licencia</strong><%=driver.getLicence() %></li>
+                        <li class="list-group-item"><strong>Telefono</strong><%=driver.getPhone() %></li>
+                        <li class="list-group-item"><strong>Fecha Nac</strong><%=date %></li>
+                        <li class="list-group-item"><strong>Disponibilidad</strong><%=availability %></li>
+                    </ul>
                 </div>
             </div>
         </div>
+
     </div>
 </body>
 </html>

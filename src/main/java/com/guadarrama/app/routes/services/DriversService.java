@@ -25,6 +25,7 @@ public class DriversService implements IService<Driver> {
         }
     }
 
+
     @Override
     public Optional<Driver> getByID(Long id) {
         try {
@@ -45,6 +46,10 @@ public class DriversService implements IService<Driver> {
 
     @Override
     public void delete(Driver driver) {
-
+        try{
+           driversRepository.delete(driver.getId_driver());
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

@@ -24,18 +24,20 @@ public class DriversRepository implements IRepository<Driver> {
             }
         }catch (SQLException ex){
             throw new RuntimeException(ex);
-        }return drivers;
+        }
+        return drivers;
     }
 
     @Override
     public Driver getById(Long id) throws SQLException {
         Driver driver = new Driver();
-        try(PreparedStatement pstm = connection.prepareStatement("SELECT * FROM drivers WHERE ID_DRIVER = ?")){
+        try(PreparedStatement pstm = connection.prepareStatement("SELECT * FROM DRIVERS WHERE ID_DRIVER = ?")){
             pstm.setLong(1, id);
             try(ResultSet resultSet = pstm.executeQuery()){
                 if (resultSet.next())
                     driver = this.getDriver(resultSet);
             }
+
         }
         return driver;
     }
