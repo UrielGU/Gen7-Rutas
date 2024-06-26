@@ -27,7 +27,11 @@ public class DriversService implements IService<Driver> {
 
     @Override
     public Optional<Driver> getByID(Long id) {
-        return Optional.empty();
+        try {
+            return Optional.ofNullable(driversRepository.getById(id));
+        }catch (SQLException ex){
+            throw new RuntimeException(ex.getMessage(), ex.getCause());
+        }
     }
 
     @Override
