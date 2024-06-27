@@ -51,8 +51,8 @@
                            aria-haspopup="true" aria-expanded="false">Camiones<span
                                class="caret"></span></a>
                        <ul class="dropdown-menu">
-                           <li><a href="<%=request.getContextPath()%>/camiones/listar">Lista Camiones</a></li>
-                           <li><a href="<%=request.getContextPath()%>/camiones/alta">Alta Camion</a></li>
+                           <li><a href="<%=request.getContextPath()%>/trucks/toList">Lista Camiones</a></li>
+                           <li><a href="<%=request.getContextPath()%>/trucks/add">Alta Camion</a></li>
                        </ul>
                    </li>
 

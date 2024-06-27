@@ -11,15 +11,10 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 import java.sql.Connection;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Optional;
 
-@WebServlet("/drivers/details")
-public class DriversDetailsServlet extends HttpServlet {
+@WebServlet("/drivers/delete")
+public class DriversDeleteServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Connection connection = (Connection) request.getAttribute("connection");
@@ -34,9 +29,8 @@ public class DriversDetailsServlet extends HttpServlet {
         if (id>0){
             Optional<Driver> optionalDriver = service.getByID(id);
             if (optionalDriver.isPresent()){
-                driver = optionalDriver.get();
-                request.setAttribute("driver", driver);
-                getServletContext().getRequestDispatcher("/driverDetails.jsp").forward(request, response);
+                service.delete(id);
+                response.sendRedirect(request.getContextPath() + "/drivers/toList");
             }else {
                 response.sendError(HttpServletResponse.SC_NOT_FOUND, "No existe el chofer en la BDD");
             }
@@ -44,5 +38,4 @@ public class DriversDetailsServlet extends HttpServlet {
             response.sendError(HttpServletResponse.SC_NOT_FOUND, "Error en el ID");
         }
     }
-
 }

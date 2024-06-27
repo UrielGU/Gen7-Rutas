@@ -40,7 +40,11 @@ public class TrucksService implements IService<Truck> {
     }
 
     @Override
-    public void delete(Truck truck) {
-
+    public void delete(Long id) {
+        try{
+            truckRepository.delete(id);
+        }catch (SQLException e){
+            throw  new RuntimeException(e.getMessage(),e.getCause());
+        }
     }
 }

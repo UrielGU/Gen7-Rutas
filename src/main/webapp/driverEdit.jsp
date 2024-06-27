@@ -1,8 +1,14 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@page import="java.util.*" %>
+<%@page import="com.guadarrama.app.routes.models.*" %>
+<%@page import="java.time.format.*" %>
 
 <%
     Map<String, String> errors = (Map<String, String>) request.getAttribute("errors");
+    Driver driver = (Driver) request.getAttribute("driver");
+    String date = driver.getBirthDate() != null ? driver.getBirthDate().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")) : "";
+    Boolean state = driver.getAvailability();
+    String availability = state == true ? "checked" : "";
 %>
 
 <!DOCTYPE html>
@@ -82,11 +88,12 @@
                 </ul>
             <%}%>
             <div class="row">
-                <form action="<%=request.getContextPath()%>/drivers/add" method="post">
+                <form action="<%=request.getContextPath()%>/drivers/edit" method="post">
+                    <input type="hidden" name="id" value="<%=driver.getId_driver() %>">
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="">Nombre</label>
-                            <input type="text" value="${param.name}"  name="name" id="name" class="form-control">
+                            <input type="text" value="<%=driver.getName() != null ? driver.getName(): ""%>"  name="name" id="name" class="form-control">
                             <%
                             if(errors!=null && errors.containsKey("name")){
                                 out.println("<span class='text-danger'>"+errors.get("name")+"</span>");
@@ -96,7 +103,7 @@
 
                         <div class="form-group">
                             <label for="">Apellido Paterno</label>
-                            <input type="text" value="${param.surname}"  name="surname" id="surname" class="form-control">
+                            <input type="text" value="<%=driver.getSurname() != null ? driver.getSurname(): ""%>"  name="surname" id="surname" class="form-control">
                             <%
                             if(errors!=null && errors.containsKey("surname")){
                                 out.println("<span class='text-danger'>"+errors.get("surname")+"</span>");
@@ -106,17 +113,17 @@
 
                         <div class="form-group">
                             <label for="">Apellido Materno</label>
-                            <input type="text" value="${param.lastName}"  name="lastName" id="lastName" class="form-control">
+                            <input type="text" value="<%=driver.getLastName() != null ? driver.getLastName(): ""%>"  name="lastname" id="lastname" class="form-control">
                             <%
-                            if(errors!=null && errors.containsKey("lastName")){
-                                out.println("<span class='text-danger'>"+errors.get("lastName")+"</span>");
+                            if(errors!=null && errors.containsKey("lastname")){
+                                out.println("<span class='text-danger'>"+errors.get("lastname")+"</span>");
                             }
                             %>
                         </div>
 
                         <div class="form-group">
                             <label for="">Licencia</label>
-                            <input type="text" value="${param.licence}"  name="licence" id="licence" class="form-control">
+                            <input type="text" value="<%=driver.getLicence() != null ? driver.getLicence(): ""%>"  name="licence" id="licence" class="form-control">
                             <%
                             if(errors!=null && errors.containsKey("licence")){
                                 out.println("<span class='text-danger'>"+errors.get("licence")+"</span>");
@@ -126,7 +133,7 @@
 
                         <div class="form-group">
                             <label for="">Telefono</label>
-                            <input type="text" value="${param.phone}"  name="phone" id="phone" class="form-control">
+                            <input type="text" value="$<%=driver.getPhone() != null ? driver.getPhone(): ""%>"  name="phone" id="phone" class="form-control">
                             <%
                             if(errors!=null && errors.containsKey("phone")){
                                 out.println("<span class='text-danger'>"+errors.get("phone")+"</span>");
@@ -136,16 +143,16 @@
 
                         <div class="form-group">
                             <label for="">Fecha Nacimiento</label>
-                            <input type="text" value="${param.birthDate}"  name="birthDate" id="birthDate" class="form-control">
+                            <input type="text" value="<%= date%>"  name="birthdate" id="birthdate" class="form-control">
                             <%
-                            if(errors!=null && errors.containsKey("birthDate")){
-                                out.println("<span class='text-danger'>"+errors.get("birthDate")+"</span>");
+                            if(errors!=null && errors.containsKey("birthdate")){
+                                out.println("<span class='text-danger'>"+errors.get("birthdate")+"</span>");
                             }
                             %>
                         </div>
                         <div class="form-group">
                             <label for="">Disponibilidad</label>
-                            <input type="checkbox" value="${param.availability}" name="availability" id="availability" class="form-check-input" >
+                            <input type="checkbox" name="availability" id="availability" class="form-check-input" value="1" <%=availability %>>
                         </div>
                         <div class="form-group">
                             <button type="submit" class="btn btn-success">Guardar</button>

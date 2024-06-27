@@ -7,5 +7,5 @@ public interface IService<T>{
     List<T> toList();
     Optional<T> getByID(Long id);
     void save(T t);
-    void delete(T t);
+    void delete(Long id);
 }

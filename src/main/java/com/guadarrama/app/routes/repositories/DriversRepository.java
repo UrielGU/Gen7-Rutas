@@ -81,7 +81,11 @@ public class DriversRepository implements IRepository<Driver> {
 
     @Override
     public void delete(Long id) throws SQLException {
-
+        String sql = "DELETE FROM DRIVERS WHERE ID_DRIVER=?";
+        try (PreparedStatement statement = connection.prepareStatement(sql)){
+            statement.setLong(1, id);
+            statement.executeUpdate(sql);
+        }
     }
 
     private Driver getDriver(ResultSet resultSet) throws SQLException{

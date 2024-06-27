@@ -45,11 +45,11 @@ public class DriversService implements IService<Driver> {
     }
 
     @Override
-    public void delete(Driver driver) {
+    public void delete(Long id) {
         try{
-           driversRepository.delete(driver.getId_driver());
+            driversRepository.delete(id);
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getMessage(), e.getCause());
         }
     }
 }
